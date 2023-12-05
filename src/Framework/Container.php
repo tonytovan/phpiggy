@@ -22,7 +22,7 @@ class Container
         $reflectionClass = new ReflectionClass($className);
 
         if (!$reflectionClass->isInstantiable()) {
-            throw new ContainerException("Class {$className} is not instatiable");
+            throw new ContainerException("Class {$className} is not instantiable");
         }
 
         $constructor = $reflectionClass->getConstructor();
@@ -44,7 +44,7 @@ class Container
             $type = $param->getType();
 
             if (!$type) {
-                throw new ContainerException("Failed to reslove class {$className} because param {$name} is missing a type hint");
+                throw new ContainerException("Failed to resolve class {$className} because param {$name} is missing a type hint.");
             }
 
             if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
@@ -60,7 +60,7 @@ class Container
     public function get(string $id)
     {
         if (!array_key_exists($id, $this->definitions)) {
-            throw new ContainerException("Class {$id} does not exist in container");
+            throw new ContainerException("Class {$id} does not exist in container.");
         }
 
         if (array_key_exists($id, $this->resolved)) {
@@ -68,7 +68,7 @@ class Container
         }
 
         $factory = $this->definitions[$id];
-        $dependency = $factory();
+        $dependency = $factory($this);
 
         $this->resolved[$id] = $dependency;
 
